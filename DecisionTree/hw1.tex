@@ -1,0 +1,1914 @@
+% Page Setup
+\documentclass[8pt, fullpage,letterpaper]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{url}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{xspace}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{multicol}
+
+\newcommand{\semester}{Fall 2023}
+\newcommand{\assignmentId}{1}
+\newcommand{\releaseDate}{3 Sep, 2024}
+\newcommand{\dueDate}{11:59pm, 20 Sep, 2024}
+
+\newcommand{\bx}{{\bf x}}
+\newcommand{\bw}{{\bf w}}
+
+\title{CS 5350/6350: Machine Learning \semester}
+\author{Homework \assignmentId}
+\date{Handed out: \releaseDate\\
+	Due: \dueDate}
+
+
+\title{CS 5350/6350: Machine Learining \semester}
+\author{Homework \assignmentId}
+\date{Handed out: \releaseDate\\
+  Due date: \dueDate}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+%\maketitle
+\input{emacscomm}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Problem 1
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{enumerate}
+%\section{Decision Tree [40 points + 10 bonus]}
+% Problem 1.1 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\item~[7 points] Problem 1.1 (Training Data for Boolean Classifier)
+% Problem 1.1a %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{enumerate}
+\item~[5 points] Problem 1.1a (Boolean Decision Tree)
+
+	\color{violet}
+	\begin{enumerate}
+
+	 	\item ID3(S,Attributes = $\{x_1, x_2, x_3, x_4\}$,Label = $y \epsilon \{0, 1\}$): 
+			\begin{enumerate}
+			\item First Root Node - Check if all base cases are met: {\color{red} No}.
+			\item Otherwise - Create a root node using the "best attribute":
+				\begin{itemize}
+					\item Entropy of S, H(S):
+						\begin{align*}
+						    	& p = 2\\
+							& n = 5 \\
+						    	& H(S) = - (2/7) \log_2 (2/7) - (5/7) \log_2 (5/7) = {\bf 0.863120569}
+					      \end{align*}
+						\underline {For attribute $x_1$:} 
+							\vspace{-5pt}
+							\begin{multicols}{2}
+								$x_1=0$ (5)
+			 						\begin{align*}
+									    	& p = 1\\
+										& n = 4 \\
+									    	& H = 0.721928095\\
+								      \end{align*}
+								$x_1=1$ (2)
+			 						\begin{align*}
+									    	& p = 1\\
+										& n = 1 \\
+									    	& H = 1\\
+								      \end{align*}
+							\end{multicols}
+							\vspace{-20pt}
+							Expected Entropy = (5/7)(0.721928095) + (2/7)(1) = 0.801377211\\
+							Information Gain = 0.863120569 - 0.801377211 = {\bf 0.061743358}\\
+
+						\underline {For attribute $x_2$:} 
+							\vspace{-5pt}
+							\begin{multicols}{2}
+								$x_2=0$ (3)
+			 						\begin{align*}
+									    	& p = 2\\
+										& n = 1 \\
+									    	& H = 0.918295834\\
+								      \end{align*}
+								$x_2=1$ (4)
+			 						\begin{align*}
+									    	& p = 0\\
+										& n = 4 \\
+									    	& H = 0\\
+								      \end{align*}
+							\end{multicols}
+							\vspace{-20pt}
+							Expected Entropy = (3/7)(0.918295834) + (4/7)(0) = 0.393555357\\
+							Information Gain = 0.863120569 - 0.393555357 = {\bf 0.469565212}\\
+
+						\underline {For attribute $x_3$:} 
+							\vspace{-5pt}
+							\begin{multicols}{2}
+								$x_3=0$ (4)
+			 						\begin{align*}
+									    	& p = 1\\
+										& n = 3 \\
+									    	& H = 0.811278124\\
+								      \end{align*}
+								$x_3=1$ (3)
+			 						\begin{align*}
+									    	& p = 1\\
+										& n = 2 \\
+									    	& H = 0.918295834\\
+								      \end{align*}
+							\end{multicols}
+							\vspace{-20pt}
+							Expected Entropy = (4/7)(0.811278124) + (3/7)(0.918295834) = 0.857142857\\
+							Information Gain = 0.863120569 - 0.857142857 = {\bf 0.0.005977712}\\
+
+						\underline {For attribute $x_4$:} 
+							\vspace{-5pt}
+							\begin{multicols}{2}
+								$x_4=0$ (4)
+			 						\begin{align*}
+									    	& p = 0\\
+										& n = 4 \\
+									    	& H = 0\\
+								      \end{align*}
+								$x_4=1$ (3)
+			 						\begin{align*}
+									    	& p = 2\\
+										& n = 1 \\
+									    	& H = 0.918295834\\
+								      \end{align*}
+							\end{multicols}
+							\vspace{-20pt}
+							Expected Entropy = (4/7)(0) + (3/7)(0.918295834) = 0.393555357\\
+							Information Gain = 0.863120569 - 0.393555357 = {\bf 0.469565212}\\
+
+					\centerline{\fbox{\begin{minipage}{38em}
+					{\bf\color{teal} The best attributes are $x_2$ or $x_4$ (both tie for highest information gain). Work is shown for $x_2$, but both tree diagrams are shown. For attribute $x_2$, two branches are created with values 0 and 1. Each value has its own subset, $S_v$.}
+					\end{minipage}}}
+
+				\end{itemize}	
+			\end{enumerate}
+
+	 	\item ID3($S_v$ where $x_2 = 1$, Attributes = \{$x_1, x_3, x_4$\}, Label = \{0, 1\}): \\
+				\centerline{\fbox{\begin{minipage}{30em}
+				{\bf\color{teal} Return leaf node with label "$y=0$" (i.e, if $x_2 = 1$ then $y = 0$).}
+				\end{minipage}}}	
+
+	 	\item ID3($S_v$ where $x_2 = 0$, Attributes = \{$x_1, x_3, x_4$\}, Label = \{0, 1\}): 
+			\begin{enumerate}
+			\item Second Node - Check if all base cases are met:{\color{red} No}.
+			\item Otherwise - Create a node using the "best attribute":
+				\begin{itemize}
+					\item Entropy of S, H($S_v$ where $x_2 = 0$):
+						\begin{align*}
+						    	& p = 2\\
+							& n = 1 \\
+						    	& H(S_v) = - (2/3) \log_2 (2/3) - (1/3) \log_2 (1/3) = 0.918295834
+					      \end{align*}
+						\underline {For attribute $x_1$:} 
+							\vspace{-5pt}
+							\begin{multicols}{2}
+								$x_1=0$ (2)
+			 						\begin{align*}
+									    	& p = 1\\
+										& n = 1 \\
+									    	& H(x_1 = 0) = 1\\
+								      \end{align*}
+								$x_1=1$ (2)
+			 						\begin{align*}
+									    	& p = 1\\
+										& n = 0 \\
+									    	& H = 0\\
+								      \end{align*}
+							\end{multicols}
+							\vspace{-20pt}
+							Expected Entropy = (2/3)(1) + (1/3)(0) = 2/3\\
+							Information Gain = 0.918295834 - (2/3) = {\bf 0.251629167}\\
+
+						\underline {For attribute $x_3$:} 
+							\vspace{-5pt}
+							\begin{multicols}{2}
+								$x_3=0$ (1)
+			 						\begin{align*}
+									    	& p = 0\\
+										& n = 1 \\
+									    	& H = 0\\
+								      \end{align*}
+								$x_3=1$ (2)
+			 						\begin{align*}
+									    	& p = 1\\
+										& n = 1 \\
+									    	& H = 1\\
+								      \end{align*}
+							\end{multicols}
+							\vspace{-20pt}
+							Expected Entropy = (1/3)(0) + (2/3)(1) = 2/3\\
+							Information Gain = 0.918295834 - (2/3) = {\bf 0.251629167}\\
+
+						\underline {For attribute $x_4$:} 
+							\vspace{-5pt}
+							\begin{multicols}{2}
+								$x_4=0$ (1)
+			 						\begin{align*}
+									    	& p = 0\\
+										& n = 1 \\
+									    	& H = 0\\
+								      \end{align*}
+								$x_4=1$ (2)
+			 						\begin{align*}
+									    	& p = 2\\
+										& n = 0 \\
+									    	& H = 0\\
+								      \end{align*}
+							\end{multicols}
+							\vspace{-20pt}
+							Expected Entropy = (1/3)(0) + (2/3)(0) = 0\\
+							Information Gain = 0.918295834 - 0 = {\bf 0.918295834}\\
+
+					\centerline{\fbox{\begin{minipage}{38em}
+					{\bf\color{teal} The best attribute is $x_4$ (for the highest information gain). For attribute $x_4$, two branches are created with values 0 and 1. Each value has its own subset, $S_v$.}
+					\end{minipage}}}
+				\end{itemize}	
+			\end{enumerate}
+
+	 	\item ID3($S_v$ where $x_2 = 0$ and $x_4 = 1$, Attributes = \{$x_1, x_3$\}, Label = \{0, 1\}): \\
+				\centerline{\fbox{\begin{minipage}{35em}
+				{\bf\color{teal} Return leaf node with label "$y=1$" (i.e, if $x_2 = 0$ and $x_4 = 1$ then $y = 1$).}
+				\end{minipage}}}	
+
+	 	\item ID3($S_v$ where $x_2 = 0$ and $x_4 = 0$, Attributes = \{$x_1, x_3$\}, Label = \{0, 1\}): \\
+				\centerline{\fbox{\begin{minipage}{35em}
+				{\bf\color{teal} Return leaf node with label "$y=1$" (i.e, if $x_2 = 0$ and $x_4 = 0$ then $y = 0$).}
+				\end{minipage}}}	
+
+	 	\item {\bf We end with the following decision tree:} 
+			\center\includegraphics[scale = 0.5]{C:/Users/daisy/Downloads/Screenshot 2024-09-04 194258.png}\\
+
+	\end{enumerate}
+
+
+
+% Problem 1.1b %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\color{black}
+\item~[2 points] Problem 1.1b (Boolean Function Representation)
+\end{enumerate}
+
+	\color{violet}
+
+	\begin{table}[h]
+		\centering
+		\begin{tabular}{cccc|c||cccc|c}
+			Inputs & &  & & $Output$ & Inputs & &  & & $Output$\\ 
+			\hline
+			$x_1$ & $x_2$ & $x_3$ & $x_4$ & $y$ & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $y$\\ 
+			\hline\hline
+			0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 \\ \hline
+			0 & 0 & 0 & 1 & 1 & 1 & 0 & 0 & 1 & 1 \\ \hline
+			0 & 0 & 1 & 0 & 0 & 1 & 0 & 1 & 0 & 0 \\ \hline
+			0 & 0 & 1 & 1 & 1 & 1 & 0 & 1 & 1 & 1 \\ \hline
+			0 & 1 & 0 & 0 & 0 & 1 & 1 & 0 & 0 & 0\\ \hline
+			0 & 1 & 0 & 1 & 0 & 1 & 1 & 0 & 1 & 0\\ \hline
+			0 & 1 & 1 & 0 & 0 & 1 & 1 & 1 & 0 & 0\\ \hline
+			0 & 1 & 1 & 1 & 0 & 1 & 1 & 1 & 1 & 0\\ \hline
+
+		\end{tabular}
+	\end{table}
+
+
+
+
+% Problem 1.2 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\color{black}
+\item~[17 points]  Problem 1.2 (Tennis Training Dataset)
+% Problem 1.2a %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{enumerate}
+	\item~[7 points] Problem 1.2a (Majority Error Tree)
+
+	\color{violet}
+	\begin{enumerate}
+
+	 	\item ID3(S,Attributes = \{O, T, H, W\}, Labels = $ \{+, -\}$): 
+			\begin{enumerate}
+			\item First Root Node - Check if all base cases are met: {\color{red} No}.
+			\item Otherwise - Create a root node using the "best attribute":
+				\begin{itemize}
+					\item Majority Error of S, ME(S):
+						\begin{align*}
+						    	& p = 9\\
+							& n = 5 \\
+						    	& ME(S) = 5/14
+					      \end{align*}
+						\underline {For attribute Outlook:} 
+							\vspace{-5pt}
+							\begin{multicols}{3}
+								Sunny (5)
+			 						\begin{align*}
+									    	& p = 2\\
+										& n = 3 \\
+									    	& ME = 2/5\\
+								      \end{align*}
+								Overcast (4)
+			 						\begin{align*}
+									    	& p = 4\\
+										& n = 0 \\
+									    	& ME = 0\\
+								      \end{align*}
+								Rainy (5)
+			 						\begin{align*}
+									    	& p = 3\\
+										& n = 2 \\
+									    	& ME = 2/5\\
+								      \end{align*}
+							\end{multicols}
+							\vspace{-20pt}
+							Expected = (5/14)(2/5) + (4/14)(0) + (5/14)(2/5) = 2/7\\
+							Gain = 5/14 - 2/7 = 1/14 = {\bf 0.061743358}\\
+
+						\underline {For attribute Temperature:} 
+							\vspace{-5pt}
+							\begin{multicols}{3}
+								Hot (4)
+			 						\begin{align*}
+									    	& p = 2\\
+										& n = 2 \\
+									    	& ME = 1/2\\
+								      \end{align*}
+								Medium (6)
+			 						\begin{align*}
+									    	& p = 4\\
+										& n = 2 \\
+									    	& ME = 1/3\\
+								      \end{align*}
+								Cold (4)
+			 						\begin{align*}
+									    	& p = 3\\
+										& n = 1 \\
+									    	& ME = 1/4\\
+								      \end{align*}
+							\end{multicols}
+							\vspace{-20pt}
+							Expected = (4/14)(1/2) + (6/14)(1/3) + (4/14)(1/4) = 5/14\\
+							Gain = 5/14 - 5/14 = {\bf 0}\\
+
+						\underline {For attribute Humidity:} 
+							\vspace{-5pt}
+							\begin{multicols}{3}
+								High (7)
+			 						\begin{align*}
+									    	& p = 3\\
+										& n = 4 \\
+									    	& ME = 3/7\\
+								      \end{align*}
+								Normal (7)
+			 						\begin{align*}
+									    	& p = 6\\
+										& n = 1 \\
+									    	& ME = 1/7\\
+								      \end{align*}
+								Low (0)
+			 						\begin{align*}
+									    	& p = 0\\
+										& n = 0 \\
+									    	& ME = 0\\
+								      \end{align*}
+							\end{multicols}
+							\vspace{-20pt}
+							Expected = (7/14)(3/7) + (7/14)(1/7) + (0)(0) = 2/7\\
+							Gain = 5/14 - 2/7 = 1/14 = {\bf 0.061743358}\\
+
+						\underline {For attribute Wind:} 
+							\vspace{-5pt}
+							\begin{multicols}{2}
+								Strong (6)
+			 						\begin{align*}
+									    	& p = 3\\
+										& n = 3 \\
+									    	& ME = 1/2\\
+								      \end{align*}
+								Weak (8)
+			 						\begin{align*}
+									    	& p = 6\\
+										& n = 2 \\
+									    	& ME = 1/4\\
+								      \end{align*}
+							\end{multicols}
+							\vspace{-20pt}
+							Expected = (6/14)(1/2) + (8/14)(1/4) = 5/14\\
+							Gain = 5/14 - 5/14 = {\bf 0}\\
+
+					\centerline{\fbox{\begin{minipage}{38em}
+					{\bf\color{teal} The best attributes are Outlook or Humidity (both tie for highest gain). Work is shown for Outlook as the root node. For the Outlook attribute, three branches are created with values S, O, and R. Each value has its own subset, $S_v$.}
+					\end{minipage}}}	
+				\end{itemize}	
+			\end{enumerate}
+
+	 	\item ID3($S_v$ where Outlook = S, Attributes = \{T, H, W\}, Label = \{+, -\}): 
+			\begin{enumerate}
+			\item Node - Check if all base cases are met: {\color{red} No}.
+			\item Otherwise - Create a node using the "best attribute":
+				\begin{itemize}
+					\item Majority Error of $S_v$, ME($S_v$):
+						\begin{align*}
+						    	& p = 2\\
+							& n = 3 \\
+						    	& ME(S) = 2/5
+					      \end{align*}
+
+						\underline {For attribute Temperature:} 
+							\vspace{-5pt}
+							\begin{multicols}{3}
+								Hot (2)
+			 						\begin{align*}
+									    	& p = 0\\
+										& n = 2 \\
+									    	& ME = 0\\
+								      \end{align*}
+								Medium (2)
+			 						\begin{align*}
+									    	& p = 1\\
+										& n = 1 \\
+									    	& ME = 1/2\\
+								      \end{align*}
+								Cold (1)
+			 						\begin{align*}
+									    	& p = 1\\
+										& n = 0 \\
+									    	& ME = 0\\
+								      \end{align*}
+							\end{multicols}
+							\vspace{-20pt}
+							Expected = (2/5)(0/2) + (2/5)(1/2) + (1/5)(0/1) = 1/5\\
+							Gain = 2/5 - 1/5 = 1/5 = {\bf 0.20}\\
+
+						\underline {For attribute Humidity:} 
+							\vspace{-5pt}
+							\begin{multicols}{3}
+								High (3)
+			 						\begin{align*}
+									    	& p = 0\\
+										& n = 3 \\
+									    	& ME = 0\\
+								      \end{align*}
+								Normal (2)
+			 						\begin{align*}
+									    	& p = 2\\
+										& n = 0 \\
+									    	& ME = 0\\
+								      \end{align*}
+								Low (0)
+			 						\begin{align*}
+									    	& p = 0\\
+										& n = 0 \\
+									    	& ME = 0\\
+								      \end{align*}
+							\end{multicols}
+							\vspace{-20pt}
+							Expected = (3/5)(0) + (2/5)(0) + (0)(0) = 0\\
+							Gain = 2/5 - 0 = 2/5 = {\bf 0.40}\\
+
+						\underline {For attribute Wind:} 
+							\vspace{-5pt}
+							\begin{multicols}{2}
+								Strong (3)
+			 						\begin{align*}
+									    	& p = 1\\
+										& n = 2 \\
+									    	& ME = 1/3\\
+								      \end{align*}
+								Weak (2)
+			 						\begin{align*}
+									    	& p = 1\\
+										& n = 1 \\
+									    	& ME = 1/2\\
+								      \end{align*}
+							\end{multicols}
+							\vspace{-20pt}
+							Expected Entropy = (3/5)(1/3) + (2/5)(1/2) = 2/5\\
+							Gain = 2/5 - 2/5 = {\bf 0}\\
+
+					\centerline{\fbox{\begin{minipage}{38em}
+					{\bf\color{teal} The best attribute is Humidity for Outlook = S (for the highest gain). For attribute Humidity, two branches are created with values H, N, and L. Each value has its own subset, $S_v$.}
+					\end{minipage}}}	
+				\end{itemize}	
+			\end{enumerate}
+
+
+	 	\item ID3($S_v$ where Outlook = O, Attributes = \{T, H, W\}, Label = \{+, -\}): 
+				\centerline{\fbox{\begin{minipage}{37em}
+				{\bf\color{teal} Return leaf node with label "Play=+" (i.e, if Outlook=O then Play=+).}
+				\end{minipage}}}	
+
+
+	 	\item ID3($S_v$ where Outlook = R, Attributes = \{T, H, W\}, Label = \{+, -\}): 
+			\begin{enumerate}
+			\item Node - Check if all base cases are met: {\color{red} No}.
+			\item Otherwise - Create a node using the "best attribute":
+				\begin{itemize}
+					\item Majority Error of $S_v$, ME($S_v$):
+						\begin{align*}
+						    	& p = 2\\
+							& n = 3 \\
+						    	& ME(S) = 2/5
+					      \end{align*}
+
+						\underline {For attribute Temperature:} 
+							\vspace{-5pt}
+							\begin{multicols}{3}
+								Hot (0)
+			 						\begin{align*}
+									    	& p = 0\\
+										& n = 0 \\
+									    	& ME = 0\\
+								      \end{align*}
+								Medium (3)
+			 						\begin{align*}
+									    	& p = 2\\
+										& n = 1 \\
+									    	& ME = 1/3\\
+								      \end{align*}
+								Cold (2)
+			 						\begin{align*}
+									    	& p = 1\\
+										& n = 1 \\
+									    	& ME = 1/2\\
+								      \end{align*}
+							\end{multicols}
+							\vspace{-20pt}
+							Expected = (0)(0) + (3/5)(1/3) + (2/5)(1/2) = 2/5\\
+							Gain = 2/5 - 2/5 = {\bf 0}\\
+
+						\underline {For attribute Humidity:} 
+							\vspace{-5pt}
+							\begin{multicols}{3}
+								High (2)
+			 						\begin{align*}
+									    	& p = 1\\
+										& n = 1 \\
+									    	& ME = 1/2\\
+								      \end{align*}
+								Normal (3)
+			 						\begin{align*}
+									    	& p = 2\\
+										& n = 1 \\
+									    	& ME = 1/3\\
+								      \end{align*}
+								Low (0)
+			 						\begin{align*}
+									    	& p = 0\\
+										& n = 0 \\
+									    	& ME = 0\\
+								      \end{align*}
+							\end{multicols}
+							\vspace{-20pt}
+							Expected = (2/5)(1/2) + (3/5)(1/3) + (0)(0) = 2/5\\
+							Gain = 2/5 - 2/5 = {\bf 0}\\
+
+						\underline {For attribute Wind:} 
+							\vspace{-5pt}
+							\begin{multicols}{2}
+								Strong (2)
+			 						\begin{align*}
+									    	& p = 0\\
+										& n = 2 \\
+									    	& ME = 0\\
+								      \end{align*}
+								Weak (3)
+			 						\begin{align*}
+									    	& p = 3\\
+										& n = 0 \\
+									    	& ME = 0\\
+								      \end{align*}
+							\end{multicols}
+							\vspace{-20pt}
+							Expected Entropy = (2/5)(0) + (3/5)(0) = 0\\
+							Gain = 2/5 - 0 = 2/5 = {\bf 0.40}\\
+
+					\centerline{\fbox{\begin{minipage}{38em}
+					{\bf\color{teal} The best attribute is Humidity for Outlook = S (for the highest gain). For attribute Humidity, two branches are created with values H, N, and L. Each value has its own subset, $S_v$.}
+					\end{minipage}}}	
+				\end{itemize}	
+			\end{enumerate}
+
+	 	\item Continuing the recursive algorithm, the rest of the leaf nodes are as follows:\\
+				\centerline{\fbox{\begin{minipage}{31em}
+				{\bf\color{teal} If Outlook=S \& Humidity=H then Play=-.}\\
+				{\bf\color{teal} If Outlook=S \& Humidity=N then Play=+.}\\
+				{\bf\color{teal} If Outlook=S \& Humidity=L then Play=-. (Note, the most common value in $S_v$: Outlook=S was returned.)}\\
+				{\bf\color{teal} If Outlook=R \& Wind=S then Play=-.}\\
+				{\bf\color{teal} If Outlook=R \& Wind=W then Play=+.}
+				\end{minipage}}}
+
+	 	\item {\bf We end with the following decision tree:} 
+			\center \includegraphics[scale = 0.72]{C:/Users/daisy/Downloads/Screenshot 2024-09-07 180419.png}
+
+	\end{enumerate}
+
+
+
+% Problem 1.2b %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\color{black}
+\item~[7 points] Problem 1.2b (Gini Index Tree)
+
+	\color{violet}
+	\begin{enumerate}
+
+	 	\item ID3(S, Attributes = \{O, T, H, W\},Label =$\{+, -\}$): 
+			\begin{enumerate}
+			\item First Root Node - Check if all base cases are met: {\color{red} No}.
+			\item Otherwise - Create a root node using the "best attribute":
+				\begin{itemize}
+					\item Gini Index of S, GI(S):
+						\begin{align*}
+						    	& p = 9\\
+							& n = 5 \\
+						    	& GI(S) = 1 - (5/14)^2 - (9/14)^2 = 45/98
+					      \end{align*}
+
+						\underline {For attribute Outlook:} 
+							\vspace{-5pt}
+							\begin{multicols}{3}
+								Sunny (5)
+			 						\begin{align*}
+									    	& p = 2\\
+										& n = 3 \\
+									    	& GI = 12/25\\
+								      \end{align*}
+								Overcast (4)
+			 						\begin{align*}
+									    	& p = 4\\
+										& n = 0 \\
+									    	& GI = 0\\
+								      \end{align*}
+								Rainy (5)
+			 						\begin{align*}
+									    	& p = 3\\
+										& n = 2 \\
+									    	& GI = 12/25\\
+								      \end{align*}
+							\end{multicols}
+							\vspace{-20pt}
+							Expected = (5/14)(12/25) + (4/14)(0) + (5/14)(12/25) = 12/35\\
+							Gain = 45/98 - 12/35 = 57/490 = {\bf 0.116326531}\\
+
+						\underline {For attribute Temperature:} 
+							\vspace{-5pt}
+							\begin{multicols}{3}
+								Hot (4)
+			 						\begin{align*}
+									    	& p = 2\\
+										& n = 2 \\
+									    	& GI = 1/2\\
+								      \end{align*}
+								Medium (6)
+			 						\begin{align*}
+									    	& p = 4\\
+										& n = 2 \\
+									    	& GI = 4/9\\
+								      \end{align*}
+								Cold (4)
+			 						\begin{align*}
+									    	& p = 3\\
+										& n = 1 \\
+									    	& GI = 3/8\\
+								      \end{align*}
+							\end{multicols}
+							\vspace{-20pt}
+							Expected = (4/14)(1/2) + (6/14)(4/9) + (4/14)(3/8) = 37/84\\
+							Gain = 45/98 - 37/84 = 11/588 ={\bf 0.018707483}\\
+
+						\underline {For attribute Humidity:} 
+							\vspace{-5pt}
+							\begin{multicols}{3}
+								High (7)
+			 						\begin{align*}
+									    	& p = 3\\
+										& n = 4 \\
+									    	& GI = 24/49\\
+								      \end{align*}
+								Normal (7)
+			 						\begin{align*}
+									    	& p = 6\\
+										& n = 1 \\
+									    	& GI = 12/49\\
+								      \end{align*}
+								Low (0)
+			 						\begin{align*}
+									    	& p = 0\\
+										& n = 0 \\
+									    	& GI = 0\\
+								      \end{align*}
+							\end{multicols}
+							\vspace{-20pt}
+							Expected = (7/14)(24/49) + (7/14)(12/49) + (0)(0) = 18/49\\
+							Gain = 45/98 - 18/49 = 9/98 = {\bf 0.091836735}\\
+
+						\underline {For attribute Wind:} 
+							\vspace{-5pt}
+							\begin{multicols}{2}
+								Strong (6)
+			 						\begin{align*}
+									    	& p = 3\\
+										& n = 3 \\
+									    	& GI = 1/2\\
+								      \end{align*}
+								Weak (8)
+			 						\begin{align*}
+									    	& p = 6\\
+										& n = 2 \\
+									    	& GI = 3/8\\
+								      \end{align*}
+							\end{multicols}
+							\vspace{-20pt}
+							Expected = (6/14)(1/2) + (8/14)(3/8) = 3/7\\
+							Gain = 45/98 - 3/7 = 3/98 = {\bf 0.030612245}\\
+
+					\centerline{\fbox{\begin{minipage}{38em}
+					{\bf\color{teal} The best attribute is Outlook (for highest gain). For the Outlook attribute, three branches are created with values S, O, and R. Each value has its own subset, $S_v$.}
+					\end{minipage}}}	
+				\end{itemize}	
+			\end{enumerate}
+
+
+	 	\item ID3($S_v$ where Outlook = S, Attributes = \{T, H, W\}, Label = \{+, -\}): 
+			\begin{enumerate}
+			\item Node - Check if all base cases are met: {\color{red} No}.
+			\item Otherwise - Create a node using the "best attribute":
+				\begin{itemize}
+					\item Gini Index of $S_v$, GI($S_v$):
+						\begin{align*}
+						    	& p = 2\\
+							& n = 3 \\
+						    	& GI(S) = 1 - (2/5)^2 - (3/5)^2 = 12/25
+					      \end{align*}
+
+						\underline {For attribute Temperature:} 
+							\vspace{-5pt}
+							\begin{multicols}{3}
+								Hot (2)
+			 						\begin{align*}
+									    	& p = 0\\
+										& n = 2 \\
+									    	& GI = 0\\
+								      \end{align*}
+								Medium (2)
+			 						\begin{align*}
+									    	& p = 1\\
+										& n = 1 \\
+									    	& GI = 1/2\\
+								      \end{align*}
+								Cold (1)
+			 						\begin{align*}
+									    	& p = 1\\
+										& n = 0 \\
+									    	& GI = 0\\
+								      \end{align*}
+							\end{multicols}
+							\vspace{-20pt}
+							Expected = (2/5)(0) + (2/5)(1/2) + (1/5)(0) = 1/5\\
+							Gain = 12/25 - 1/5 = 7/25 = {\bf 0.28}\\
+
+						\underline {For attribute Humidity:} 
+							\vspace{-5pt}
+							\begin{multicols}{3}
+								High (3)
+			 						\begin{align*}
+									    	& p = 0\\
+										& n = 3 \\
+									    	& GI = 0\\
+								      \end{align*}
+								Normal (2)
+			 						\begin{align*}
+									    	& p = 2\\
+										& n = 0 \\
+									    	& GI = 0\\
+								      \end{align*}
+								Low (0)
+			 						\begin{align*}
+									    	& p = 0\\
+										& n = 0 \\
+									    	& GI = 0\\
+								      \end{align*}
+							\end{multicols}
+							\vspace{-20pt}
+							Expected = (3/5)(0) + (2/5)(0) + (0)(0) = 0\\
+							Gain = 12/25 - 0 = 12/25 = {\bf 0.48}\\
+
+						\underline {For attribute Wind:} 
+							\vspace{-5pt}
+							\begin{multicols}{2}
+								Strong (3)
+			 						\begin{align*}
+									    	& p = 1\\
+										& n = 2 \\
+									    	& GI = 4/9\\
+								      \end{align*}
+								Weak (2)
+			 						\begin{align*}
+									    	& p = 1\\
+										& n = 1 \\
+									    	& GI = 1/2\\
+								      \end{align*}
+							\end{multicols}
+							\vspace{-20pt}
+							Expected Entropy = (3/5)(4/9) + (2/5)(1/2) = 7/15\\
+							Gain = 12/25 - 7/15 = 1/75 = {\bf 0.013333333}\\
+
+					\centerline{\fbox{\begin{minipage}{38em}
+					{\bf\color{teal} The best attribute is Humidity for Outlook = S (for the highest gain). For attribute Humidity, two branches are created with values H, N, and L. Each value has its own subset, $S_v$.}
+					\end{minipage}}}	
+				\end{itemize}	
+			\end{enumerate}
+
+
+	 	\item ID3($S_v$ where Outlook = O, Attributes = \{T, H, W\}, Label = \{+, -\}): 
+				\centerline{\fbox{\begin{minipage}{37em}
+				{\bf\color{teal} Return leaf node with label "Play=+" (i.e, if Outlook=O then Play=+).}
+				\end{minipage}}}	
+
+
+
+	 	\item ID3($S_v$ where Outlook = R, Attributes = \{T, H, W\}, Label = \{+, -\}): 
+			\begin{enumerate}
+			\item Node - Check if all base cases are met: {\color{red} No}.
+			\item Otherwise - Create a node using the "best attribute":
+				\begin{itemize}
+					\item Gini Index of $S_v$, GI($S_v$):
+						\begin{align*}
+						    	& p = 2\\
+							& n = 3 \\
+						    	& GI(S) = 1 - (2/5)^2 - (3/5)^2 = 12/25
+					      \end{align*}
+
+						\underline {For attribute Temperature:} 
+							\vspace{-5pt}
+							\begin{multicols}{3}
+								Hot (0)
+			 						\begin{align*}
+									    	& p = 0\\
+										& n = 0 \\
+									    	& GI = 0\\
+								      \end{align*}
+								Medium (3)
+			 						\begin{align*}
+									    	& p = 2\\
+										& n = 1 \\
+									    	& GI = 4/9\\
+								      \end{align*}
+								Cold (2)
+			 						\begin{align*}
+									    	& p = 1\\
+										& n = 1 \\
+									    	& GI = 1/2\\
+								      \end{align*}
+							\end{multicols}
+							\vspace{-20pt}
+							Expected = (0)(0) + (3/5)(4/9) + (2/5)(1/2) = 7/15\\
+							Gain = 12/25 - 7/15 = 1/75 = {\bf 0.013333333}\\
+
+						\underline {For attribute Humidity:} 
+							\vspace{-5pt}
+							\begin{multicols}{3}
+								High (2)
+			 						\begin{align*}
+									    	& p = 1\\
+										& n = 1 \\
+									    	& GI = 1/2\\
+								      \end{align*}
+								Normal (3)
+			 						\begin{align*}
+									    	& p = 2\\
+										& n = 1 \\
+									    	& GI = 4/9\\
+								      \end{align*}
+								Low (0)
+			 						\begin{align*}
+									    	& p = 0\\
+										& n = 0 \\
+									    	& GI = 0\\
+								      \end{align*}
+							\end{multicols}
+							\vspace{-20pt}
+							Expected = (2/5)(1/2) + (3/5)(4/9) + (0)(0) = 7/15\\
+							Gain = 12/25 - 7/15 = 1/75 = {\bf 0.013333333}\\
+
+						\underline {For attribute Wind:} 
+							\vspace{-5pt}
+							\begin{multicols}{2}
+								Strong (2)
+			 						\begin{align*}
+									    	& p = 0\\
+										& n = 2 \\
+									    	& ME = 0\\
+								      \end{align*}
+								Weak (3)
+			 						\begin{align*}
+									    	& p = 3\\
+										& n = 0 \\
+									    	& ME = 0\\
+								      \end{align*}
+							\end{multicols}
+							\vspace{-20pt}
+							Expected Entropy = (2/5)(0) + (3/5)(0) = 0\\
+							Gain = 12/25 - 0 = 12/25 = {\bf 0.48}\\
+
+					\centerline{\fbox{\begin{minipage}{38em}
+					{\bf\color{teal} The best attribute is Wind for Outlook = R (for the highest gain). For attribute Wind, two branches are created with values S and W. Each value has its own subset, $S_v$.}
+					\end{minipage}}}	
+				\end{itemize}	
+			\end{enumerate}
+
+
+
+	 	\item Continuing the recursive algorithm, the rest of the leaf nodes are as follows:\\
+				\centerline{\fbox{\begin{minipage}{31em}
+				{\bf\color{teal} If Outlook=S \& Humidity=H then Play=-.}\\
+				{\bf\color{teal} If Outlook=S \& Humidity=N then Play=+.}\\
+				{\bf\color{teal} If Outlook=S \& Humidity=L then Play=-. Note, the most common value in $S_v$: Outlook=S was returned.}\\
+				{\bf\color{teal} If Outlook=R \& Wind=S then Play=-.}\\
+				{\bf\color{teal} If Outlook=R \& Wind=W then Play=+.}
+				\end{minipage}}}	
+
+
+	 	\item {\bf We end with the following decision tree:} 
+			\center \includegraphics[scale = 0.6]{C:/Users/daisy/Downloads/Screenshot 2024-09-07 180419.png}
+
+	\end{enumerate}
+
+% Problem 1.2c %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\color{black}
+\item~[3 points] Problem 1.2c (In-class/HW Comparisons)
+		
+%	{\center \includegraphics[scale = 0.5]{C:/Users/daisy/Downloads/Screenshot 2024-09-07 180419.png}\includegraphics[scale = 0.4]{C:/Users/daisy/Downloads/Screenshot 2024-09-07 195626.png}\\}
+
+	{\color{violet} There is no difference between the tree derived in class and the trees from problems 1.2.a and 1.2.b. Do note that in problem 1.2.a, it is possible to start the root node with Humidity attribute instead of Outlook since they both tie for the highest gain. The method in which we compute the gain will impact the nodes of the tree, but because they all share the same goal of "purifying/simplfying" the tree, they will end with the same or similar results.}
+
+\end{enumerate}
+
+
+% Problem 1.3 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\color{black}
+\item~[16 points] Problem 1.3 (Tennis Training Dataset - Missing Attribute)
+% Problem 1.3a %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{enumerate}
+\color{black}
+\item~[3 points] Problem 1.3a (Common Label - Best Attribute)
+
+	\color{violet}
+	\begin{enumerate}
+
+	 	\item ID3(S,Attributes = \{O,T,W,H\},Label =$ \{+, -\}$): 
+			\begin{enumerate}
+			\item First Root Node - Check if all base cases are met: {\color{teal} Attribute empty}.\\
+					{\fbox{\begin{minipage}{30em}
+					{\bf\color{teal} The Outlook attribute is missing for the new training instance. The most common value in the Outlook attribute in the set S is either S or R. I will set $Outlook_{15} = S$ in this case.}
+					\end{minipage}}}
+
+			\item Otherwise - Create a root node using the "best attribute":
+				\begin{itemize}
+					\item Entropy of S, H(S):
+						\begin{align*}
+						    	& p = 10\\
+							& n = 5 \\
+						    	& H(S) = - (10/15) \log_2 (10/15) - (5/15) \log_2 (5/15) = {\bf 0.918295834}
+					      \end{align*}
+
+						\underline {For attribute Outlook:} 
+							\vspace{-5pt}
+							\begin{multicols}{3}
+								Sunny (6)
+			 						\begin{align*}
+									    	& p = 3\\
+										& n = 3 \\
+									    	& H = 1\\
+								      \end{align*}
+								Overcast (4)
+			 						\begin{align*}
+									    	& p = 4\\
+										& n = 0 \\
+									    	& H = 0\\
+								      \end{align*}
+								Rainy (5)
+			 						\begin{align*}
+									    	& p = 3\\
+										& n = 2 \\
+									    	& H = 0.970950594\\
+								      \end{align*}
+							\end{multicols}
+							\vspace{-20pt}
+							Expected = (6/15)(1) + (4/15)(0) + (5/15)(0.970950594) = 0.723650198\\
+							Gain = 0.918295834 - 0.723650198 = {\bf 0.194645636}\\
+
+						\underline {For attribute Temperature:} 
+							\vspace{-5pt}
+							\begin{multicols}{3}
+								Hot (4)
+			 						\begin{align*}
+									    	& p = 2\\
+										& n = 2 \\
+									    	& H = 1\\
+								      \end{align*}
+								Medium (7)
+			 						\begin{align*}
+									    	& p = 5\\
+										& n = 2 \\
+									    	& H = 0.863120569\\
+								      \end{align*}
+								Cold (4)
+			 						\begin{align*}
+									    	& p = 3\\
+										& n = 1 \\
+									    	& H = 0.811278124\\
+								      \end{align*}
+							\end{multicols}
+							\vspace{-20pt}
+							Expected = (4/15)(1) + (7/15)(0.863120569) + (4/15)(0.811278124) = 0.885797099\\
+							Gain = 0.918295834 - 0.885797099 = {\bf 0.032498735}\\
+
+						\underline {For attribute Humidity:} 
+							\vspace{-5pt}
+							\begin{multicols}{3}
+								High (7)
+			 						\begin{align*}
+									    	& p = 3\\
+										& n = 4 \\
+									    	& H = 0.811278124\\
+								      \end{align*}
+								Normal (8)
+			 						\begin{align*}
+									    	& p = 7\\
+										& n = 1 \\
+									    	& H = 0.543564443\\
+								      \end{align*}
+								Low (0)
+			 						\begin{align*}
+									    	& p = 0\\
+										& n = 0 \\
+									    	& H = 0\\
+								      \end{align*}
+							\end{multicols}
+							\vspace{-20pt}
+							Expected = (7/15)(0.811278124) + (8/15)(0.543564443) + (0)(0) = 0.668497494\\
+							Gain = 0.918295834 - 0.668497494 = {\bf 0.24979834}\\
+
+						\underline {For attribute Wind:} 
+							\vspace{-5pt}
+							\begin{multicols}{2}
+								Strong (6)
+			 						\begin{align*}
+									    	& p = 3\\
+										& n = 3 \\
+									    	& GI = 1\\
+								      \end{align*}
+								Weak (9)
+			 						\begin{align*}
+									    	& p = 7\\
+										& n = 2 \\
+									    	& GI = 0.764204507\\
+								      \end{align*}
+							\end{multicols}
+							\vspace{-20pt}
+							Expected = (6/15)(1) + (9/15)(0.764204507) = 0.858522704\\
+							Gain = 0.918295834 - 0.858522704 = {\bf 0.05977313}\\
+
+					\centerline{\fbox{\begin{minipage}{38em}
+					{\bf\color{teal} The best attribute is Humidity (for highest gain). This is for when we set the missing value $Outlook_{15}=S$}.
+					\end{minipage}}}	
+		
+				\end{itemize}	
+			\end{enumerate}
+
+	\end{enumerate}
+
+
+% Problem 1.3b %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\color{black}
+\item~[3 points] Problem 1.3b (Common Value w/ Same Label - Best Attribute)
+
+	\color{violet}
+	\begin{enumerate}
+
+	 	\item ID3(S,Attributes = \{O, T, H, W\},Label= \{+, -\}): 
+			\begin{enumerate}
+			\item First Root Node - Check if all base cases are met: {\color{teal} Attribute empty}.\\
+					{\fbox{\begin{minipage}{30em}
+					{\bf\color{teal} The Outlook attribute is missing for the new training instance. The new training instance (index 15) has label=+. In the set S with label=+, the Outlook values are as follows:\\				
+					- 2 instances of Outlook = S\\
+					- 4 instances of Outlook=O\\
+					- 3 instances of Outlook=R\\
+					I will set $Outlook_{15} = O$ because it is the most common value within the subset label=+.}
+					\end{minipage}}}
+			\item Otherwise - Create a root node using the "best attribute":
+				\begin{itemize}
+					\item Entropy of S, H(S):
+						\begin{align*}
+						    	& p = 10\\
+							& n = 5 \\
+						    	& H(S) = - (10/15) \log_2 (10/15) - (5/15) \log_2 (5/15) = {\bf 0.918295834}
+					      \end{align*}
+
+						\underline {For attribute Outlook:} 
+							\vspace{-5pt}
+							\begin{multicols}{3}
+								Sunny (5)
+			 						\begin{align*}
+									    	& p = 2\\
+										& n = 3 \\
+									    	& H = 0.970950594\\
+								      \end{align*}
+								Overcast (5)
+			 						\begin{align*}
+									    	& p = 5\\
+										& n = 0 \\
+									    	& H = 0\\
+								      \end{align*}
+								Rainy (5)
+			 						\begin{align*}
+									    	& p = 3\\
+										& n = 2 \\
+									    	& H = 0.970950594\\
+								      \end{align*}
+							\end{multicols}
+							\vspace{-20pt}
+							Expected = (5/15)(0.970950594) + (5/15)(0) + (5/15)(0.970950594) = 0.647300396\\
+							Gain = 0.918295834 - 0.647300396 = {\bf 0.270995438}\\
+
+						\underline {For attribute Temperature:} 
+							\vspace{-5pt}
+							\begin{multicols}{3}
+								Hot (4)
+			 						\begin{align*}
+									    	& p = 2\\
+										& n = 2 \\
+									    	& H = 1\\
+								      \end{align*}
+								Medium (7)
+			 						\begin{align*}
+									    	& p = 5\\
+										& n = 2 \\
+									    	& H = 0.863120569\\
+								      \end{align*}
+								Cold (4)
+			 						\begin{align*}
+									    	& p = 3\\
+										& n = 1\\
+									    	& H = 0.811278124\\
+								      \end{align*}
+							\end{multicols}
+							\vspace{-20pt}
+							Expected = (4/15)(1) + (7/15)(0.863120569) + (4/15)(0.811278124) = 0.885797099\\
+							Gain = 0.918295834 - 0.885797099 = {\bf 0.032498735}\\
+
+						\underline {For attribute Humidity:} 
+							\vspace{-5pt}
+							\begin{multicols}{3}
+								High (7)
+			 						\begin{align*}
+									    	& p = 3\\
+										& n = 4 \\
+									    	& H = 0.811278124\\
+								      \end{align*}
+								Normal (8)
+			 						\begin{align*}
+									    	& p = 7\\
+										& n = 1 \\
+									    	& H = 0.543564443\\
+								      \end{align*}
+								Low (0)
+			 						\begin{align*}
+									    	& p = 0\\
+										& n = 0 \\
+									    	& H = 0\\
+								      \end{align*}
+							\end{multicols}
+							\vspace{-20pt}
+							Expected = (7/15)(0.811278124) + (8/15)(0.543564443) + (0)(0) = 0.668497494\\
+							Gain = 0.918295834 - 0.668497494 = {\bf 0.24979834}\\
+
+						\underline {For attribute Wind:} 
+							\vspace{-5pt}
+							\begin{multicols}{2}
+								Strong (6)
+			 						\begin{align*}
+									    	& p = 3\\
+										& n = 3 \\
+									    	& GI = 1\\
+								      \end{align*}
+								Weak (9)
+			 						\begin{align*}
+									    	& p = 7\\
+										& n = 2 \\
+									    	& GI = 0.764204507\\
+								      \end{align*}
+							\end{multicols}
+							\vspace{-20pt}
+							Expected = (6/15)(1) + (9/15)(0.764204507) = 0.858522704\\
+							Gain = 0.918295834 - 0.858522704 = {\bf 0.05977313}\\
+
+					\centerline{\fbox{\begin{minipage}{38em}
+					{\bf\color{teal} The best attribute is Outlook (for highest gain). This is for when we set the missing value $Outlook_{15}=O$}.
+					\end{minipage}}}	
+		
+				\end{itemize}	
+			\end{enumerate}
+
+	\end{enumerate}
+
+
+% Problem 1.3c %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\color{black}
+\item~[3 points] Problem 1.3c (Fractional Counts - Best Attribute)
+
+	\color{violet}
+	\begin{enumerate}
+
+	 	\item ID3(S,Attributes= \{O,T,H,W\},Label=\{+, -\}): 
+			\begin{enumerate}
+			\item First Root Node - Check if all base cases are met:\\
+					{\fbox{\begin{minipage}{30em}
+					{\bf\color{teal} The Outlook attribute is missing for the new training instance. The new training instance can be split as follows:\\								14/14	(ith.	?	M	N	W	+) =\\
+					\* 5/14 (15		S	M	N	W	+)\\
+					\* 4/14 (16		O	M	N	W	+)\\
+					\* 5/14 (17		R	M	N	W	+)}
+					\end{minipage}}}
+
+
+			\item Otherwise - Create a root node using the "best attribute":
+				\begin{itemize}
+					\item Entropy of S, H(S): Same work as done in problem 1.3b.
+						\begin{align*}
+						    	& H(S) = - (10/15) \log_2 (10/15) - (5/15) \log_2 (5/15) = {\bf 0.918295834}
+					      \end{align*}
+
+						\underline {For attribute Outlook:} 
+							\vspace{-5pt}
+							\begin{multicols}{3}
+								Sunny (5 + 5/14)
+			 						\begin{align*}
+									    	& p = 2  + 5/14\\
+										& n = 3 \\
+									    	& H = 0.989587521\\
+								      \end{align*}
+								Overcast (4 + 4/14)
+			 						\begin{align*}
+									    	& p = 4 + 4/14\\
+										& n = 0 \\
+									    	& H = 0\\
+								      \end{align*}
+								Rainy (5 + 5/14)
+			 						\begin{align*}
+									    	& p = 3 + 5/14\\
+										& n = 2 \\
+									    	& H = 0.953197173\\
+								      \end{align*}
+							\end{multicols}
+							\vspace{-20pt}
+							Expected = $(\frac{5+\frac{5}{14}}{15})(0.989587521)+(0)+(\frac{5+\frac{5}{14}}{15})(0.953197173) = 0.693851676$\
+							Gain = 0.918295834 - 0.693851676 = {\bf 0.224444158}\\
+
+						\underline {For attribute Temperature, Humidity, and Wind:} \\
+							Same work as done in problem 1.3b. (Only Outlook attribute changes.)\\
+							Temperature: Gain = 0.918295834 - 0.885797099 = {\bf 0.032498735}\\
+							Humidity: Gain = 0.918295834 - 0.668497494 = {\bf 0.24979834}\\
+							Wind: Gain = 0.918295834 - 0.858522704 = {\bf 0.05977313}\\
+
+					\centerline{\fbox{\begin{minipage}{38em}
+					{\bf\color{teal} The best attribute is Humidity (for highest gain). This is for when we split the missing value $Outlook_{15}$ into fractional counts between S, O, and R}.
+					\end{minipage}}}	
+		
+				\end{itemize}	
+			\end{enumerate}
+
+	\end{enumerate}
+% Problem 1.3d %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\color{black}
+\item~[7 points] Problem 1.3d  (Fractional Counts - Tree)
+
+	\color{violet}
+	\begin{enumerate}
+
+	 	\item ID3($S_v$ where Humidity = H, Attributes = \{O, T, W\}, Label = \{+, -\}): 
+			\begin{enumerate}
+			\item Node - Check if all base cases are met: {\color{red} No}.
+			\item Otherwise - Create a node using the "best attribute":
+				\begin{itemize}
+					\item Entropy of $S_v$, H($S_v$):
+						\begin{align*}
+						    	& p = 3\\
+							& n = 4 \\
+						    	& H(S) = - (3/7) \log_2 (3/7) - (4/7) \log_2 (4/7) = {\bf 0.985228136}
+					      \end{align*}
+
+						\underline {For attribute Outlook:} 
+							\vspace{-5pt}
+							\begin{multicols}{3}
+								Sunny (3)
+			 						\begin{align*}
+									    	& p = 0\\
+										& n = 3 \\
+									    	& H = 0\\
+								      \end{align*}
+								Overcast (2)
+			 						\begin{align*}
+									    	& p = 2\\
+										& n = 0 \\
+									    	& H = 0\\
+								      \end{align*}
+								Rainy (2)
+			 						\begin{align*}
+									    	& p = 1\\
+										& n = 1 \\
+									    	& H = 1\\
+								      \end{align*}
+							\end{multicols}
+							\vspace{-20pt}
+							Expected = $0+0+(2/7)(1) = 2/7$\\
+							Gain = 0.985228136 - 2/7 = {\bf 0.69951385}\\
+
+						\underline {For attribute Temperature:} 
+							\vspace{-5pt}
+							\begin{multicols}{3}
+								Hot (3)
+			 						\begin{align*}
+									    	& p = 1\\
+										& n = 2 \\
+									    	& H = 0.918295834\\
+								      \end{align*}
+								Medium (4)
+			 						\begin{align*}
+									    	& p = 2\\
+										& n = 2 \\
+									    	& H = 1\\
+								      \end{align*}
+								Cold (0)
+			 						\begin{align*}
+									    	& p = 0\\
+										& n = 0 \\
+									    	&HGI = 0\\
+								      \end{align*}
+							\end{multicols}
+							\vspace{-20pt}
+							Expected = (3/7)(0.918295834) + (4/7)(1) + (0) = 0.964983929\\
+							Gain = 0.985228136 - 0.964983929 = {\bf 0.020244207}\\
+
+						\underline {For attribute Wind:} 
+							\vspace{-5pt}
+							\begin{multicols}{2}
+								Strong (3)
+			 						\begin{align*}
+									    	& p = 1\\
+										& n = 2 \\
+									    	& H = 0.918295834\\
+								      \end{align*}
+								Weak (4)
+			 						\begin{align*}
+									    	& p = 2\\
+										& n = 2 \\
+									    	& H = 1\\
+								      \end{align*}
+							\end{multicols}
+							\vspace{-20pt}
+							Expected Entropy = (3/7)(0.918295834) + (4/7)(1) = 0.964983929\\
+							Gain = 0.985228136 - 0.964983929 = {\bf 0.020244207}\\
+
+					\centerline{\fbox{\begin{minipage}{38em}
+					{\bf\color{teal} The best attribute is Outlook for Humidity = H (for the highest gain). For attribute Outlook, three branches are created with values S, O, and R. Each value has its own subset, $S_v$.}
+					\end{minipage}}}	
+				\end{itemize}	
+			\end{enumerate}
+
+
+	 	\item ID3($S_v$ where Humidity = N, Attributes = \{O, T, W\}, Label = \{+, -\}): 
+			\begin{enumerate}
+			\item Node - Check if all base cases are met: {\color{red} No}.	
+			\item Otherwise - Create a node using the "best attribute":
+				\begin{itemize}
+					\item Entropy of $S_v$, H($S_v$):
+						\begin{align*}
+						    	& p = 7\\
+							& n = 1 \\
+						    	& H(S) = - (7/8) \log_2 (7/8) - (1/8) \log_2 (1/8) = {\bf 0.543564443}
+					      \end{align*}
+
+						\underline {For attribute Outlook:} 
+							\vspace{-5pt}
+							\begin{multicols}{3}
+								Sunny (2 + 5/14)
+			 						\begin{align*}
+									    	& p = 2 + 5/14\\
+										& n = 0 \\
+									    	& H = 0\\
+								      \end{align*}
+								Overcast (2 + 4/14)
+			 						\begin{align*}
+									    	& p = 2 + 4/14\\
+										& n = 0 \\
+									    	& H = 0\\
+								      \end{align*}
+								Rainy (3 + 5/14)
+			 						\begin{align*}
+									    	& p = 2 + 5/14\\
+										& n = 1 \\
+									    	& H = 0.878674493\\
+								      \end{align*}
+							\end{multicols}
+							\vspace{-20pt}
+							Expected = $0+0+(\frac{3 + \frac{5}{14}}{8})(0.878674493) = 0.368729475$\\
+							Gain = 0.543564443 - 0.878674493 = {\bf 0.174834968}\\
+
+						\underline {For attribute Temperature:} 
+							\vspace{-5pt}
+							\begin{multicols}{3}
+								Hot (1)
+			 						\begin{align*}
+									    	& p = 1\\
+										& n = 0 \\
+									    	& H = 0\\
+								      \end{align*}
+								Medium (3)
+			 						\begin{align*}
+									    	& p = 3\\
+										& n = 0 \\
+									    	& H = 0\\
+								      \end{align*}
+								Cold (4)
+			 						\begin{align*}
+									    	& p = 3\\
+										& n = 1 \\
+									    	& H = 0.811278124\\
+								      \end{align*}
+							\end{multicols}
+							\vspace{-20pt}
+							Expected = (1/7)(0) + (3/7)(0) + (4/7)(0.811278124) = 0.463587499\\
+							Gain = 0.543564443 - 0.463587499 = {\bf 0.079976944}\\
+
+						\underline {For attribute Wind:} 
+							\vspace{-5pt}
+							\begin{multicols}{2}
+								Strong (3)
+			 						\begin{align*}
+									    	& p = 2\\
+										& n = 1 \\
+									    	& H = 0.918295834\\
+								      \end{align*}
+								Weak (5)
+			 						\begin{align*}
+									    	& p = 5\\
+										& n = 0 \\
+									    	& H = 0\\
+								      \end{align*}
+							\end{multicols}
+							\vspace{-20pt}
+							Expected Entropy = (3/8)(0.918295834) + (5/8)(0) = 0.344360938\\
+							Gain = 0.543564443 - 0.344360938 = {\bf 0.199203505}\\
+
+					\centerline{\fbox{\begin{minipage}{38em}
+					{\bf\color{teal} The best attribute is Wind for Humidity = N (for the highest gain). For attribute Wind, two branches are created with values S and W. Each value has its own subset, $S_v$.}
+					\end{minipage}}}	
+				\end{itemize}	
+			\end{enumerate}
+
+
+	 	\item ID3($S_v$ where Humidity = L, Attributes = \{O, T, W\}, Label = \{+, -\}): 
+				\centerline{\fbox{\begin{minipage}{37em}
+				{\bf\color{teal} Return leaf node with label "Play=+" (i.e, if Humidity=L then Play=+). Note, the most common value in $S$ was returned.}
+				\end{minipage}}}	
+
+
+	 	\item ID3($S_v$ where Humidity=H \& Outlook=R, Attributes = \{T, W\}, Label = \{+, -\}): 
+			\begin{enumerate}
+			\item Node - Check if all base cases are met: {\color{red} No}.
+			\item Otherwise - Create a node using the "best attribute":
+				\begin{itemize}
+					\item Entropy of $S_v$, H($S_v$):
+						\begin{align*}
+						    	& p = 1\\
+							& n = 1 \\
+						    	& H(S) = - (1/2) \log_2 (1/2) - (1/2) \log_2 (1/2) = {\bf 1}
+					      \end{align*}
+
+						\underline {For attribute Temperature:} 
+							\vspace{-5pt}
+							\begin{multicols}{3}
+								Hot (0)
+			 						\begin{align*}
+									    	& p = 0\\
+										& n = 0 \\
+									    	& H = 0\\
+								      \end{align*}
+								Medium (2)
+			 						\begin{align*}
+									    	& p = 1\\
+										& n = 1 \\
+									    	& H = 1\\
+								      \end{align*}
+								Cold (0)
+			 						\begin{align*}
+									    	& p = 0\\
+										& n = 0 \\
+									    	& H = 0\\
+								      \end{align*}
+							\end{multicols}
+							\vspace{-20pt}
+							Expected = (0) + (2/2)(1) + (0) = 1\\
+							Gain = 1 - 1 = {\bf 0}\\
+
+
+						\underline {For attribute Wind:} 
+							\vspace{-5pt}
+							\begin{multicols}{2}
+								Strong (1)
+			 						\begin{align*}
+									    	& p = 0\\
+										& n = 1 \\
+									    	& H = 0\\
+								      \end{align*}
+								Weak (1)
+			 						\begin{align*}
+									    	& p = 1\\
+										& n = 0 \\
+									    	& H = 0\\
+								      \end{align*}
+							\end{multicols}
+							\vspace{-20pt}
+							Expected Entropy = (1/2)(0) + (1/2)(0) = 0\\
+							Gain = 1 - 0 = {\bf 1}\\
+
+					\centerline{\fbox{\begin{minipage}{38em}
+					{\bf\color{teal} The best attribute is Wind for Humidity=H \& Outlook=R (for the highest gain). For attribute Wind, two branches are created with values S and W. Each value has its own subset, $S_v$.}
+					\end{minipage}}}	
+				\end{itemize}	
+			\end{enumerate}
+
+	 	\item ID3($S_v$ where Humidity=N \& Wind=S, Attributes = \{O, T\}, Label = \{+, -\}): 
+			\begin{enumerate}
+			\item Node - Check if all base cases are met: {\color{red} No}.
+			\item Otherwise - Create a node using the "best attribute":
+				\begin{itemize}
+					\item Entropy of $S_v$, H($S_v$):
+						\begin{align*}
+						    	& p = 2\\
+							& n = 1 \\
+						    	& H(S) = - (2/3) \log_2 (2/3) - (1/3) \log_2 (1/3) = {\bf 0.918295834}
+					      \end{align*}
+
+						\underline {For attribute Outlook:} 
+							\vspace{-5pt}
+							\begin{multicols}{3}
+								Sunny (1)
+			 						\begin{align*}
+									    	& p = 1\\
+										& n = 0 \\
+									    	& H = 0\\
+								      \end{align*}
+								Overcast (1)
+			 						\begin{align*}
+									    	& p = 1\\
+										& n = 0 \\
+									    	& H = 0\\
+								      \end{align*}
+								Rainy (1)
+			 						\begin{align*}
+									    	& p = 0\\
+										& n = 1 \\
+									    	& H = 0\\
+								      \end{align*}
+							\end{multicols}
+							\vspace{-20pt}
+							Expected = (0) + (0) + (0) = 0\\
+							Gain = 1 - 0 = {\bf 1}\\
+
+						\underline {For attribute Temperature:} 
+							\vspace{-5pt}
+							\begin{multicols}{3}
+								Hot (0)
+			 						\begin{align*}
+									    	& p = 0\\
+										& n = 0 \\
+									    	& H = 0\\
+								      \end{align*}
+								Medium (1)
+			 						\begin{align*}
+									    	& p = 1\\
+										& n = 0 \\
+									    	& H = 0\\
+								      \end{align*}
+								Cold (2)
+			 						\begin{align*}
+									    	& p = 1\\
+										& n = 1 \\
+									    	& H = 1\\
+								      \end{align*}
+							\end{multicols}
+							\vspace{-20pt}
+							Expected = (0) + (1/3)(0) + (2/3)(1) = 2/3\\
+							Gain = 1 - 2/3 = 1/3 = {\bf 0.33333333}\\
+
+
+					\centerline{\fbox{\begin{minipage}{38em}
+					{\bf\color{teal} The best attribute is Outlook for Humidity=N \& Wind=S (for the highest gain). For attribute Outlook, three branches are created with values S, O, and R. Each value has its own subset, $S_v$.}
+					\end{minipage}}}	
+				\end{itemize}	
+			\end{enumerate}
+
+		
+	 	\item Continuing the recursive algorithm, the rest of the leaf nodes are as follows:\\
+				\centerline{\fbox{\begin{minipage}{31em}
+					{\bf\color{teal} If Humidity=H \& Outlook=S then Play=-.}\\
+					{\bf\color{teal} If Humidity=H \& Outlook=O then Play=+.}\\
+					{\bf\color{teal} If Outlook=N \& Wind=W then Play=+.}\\
+					{\bf\color{teal} If Humidity=H \& Outlook=R \& Wind = S then Play=-.}\\
+					{\bf\color{teal} If Humidity=H \& Outlook=R \& Wind = W then Play=+.}\\
+					{\bf\color{teal} If Humidity=N \& Wind=S \& Outlook =S then Play=+.}\\
+					{\bf\color{teal} If Humidity=N \& Wind=S \& Outlook =O then Play=+.}\\
+					{\bf\color{teal} If Humidity=N \& Wind=S \& Outlook=R then Play=-.}
+				\end{minipage}}}	
+
+
+	 	\item {\bf We end with the following decision tree:} 
+			\center \includegraphics[scale = 0.5]{C:/Users/daisy/Downloads/Screenshot 2024-09-09 150536.png}
+
+	\end{enumerate}
+
+\end{enumerate}
+
+
+% Problem 1.4 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\color{black}
+\item ~[\textbf{Bonus question 1}]~[5 points].  Problem 1.4 (Prove non-negative information gain)
+
+%	\color{blue}
+%	Recall definitions and theorems:
+%	\begin{itemize}
+%		\item \underline {Definition of information gain}
+%		\item \underline{Jensen's Inequality}
+%		\item \underline {Thm:}  If the second derivative $f"(x)$ is positive $(\geq 0)$ for all x in an interval, then f(x) is convex on the interval.
+%		\item \underline {Thm:} $f$ is concave if $-f$ is convex.
+%	\end{itemize}	
+
+	\color{violet}
+	Prove $-\log(x)$ is convex:
+	\begin{itemize}
+		\item Let $g(x) = \log(x)$
+		\item Then $g'(x) = \frac{1}{x}$ and $g"(x) = -\frac{1}{x^2}$
+		\item By theorem, $g"(x) = -\frac{1}{x^2} \to$ concave $\implies f(x) = -log(x) = convex \checkmark \checkmark$
+	\end{itemize}
+	Using $-\log(x)$ is convex, prove that information gain is always non-negative:
+	\begin{align*}
+		Gain(S,A) &= Entropy(S) - \sum_{v \epsilon values(A)} \frac{\abs{S_v}}{\abs{S}} Entropy(S_v)\\
+		&=  -p_+ \log_2(p_+) -p_- \log_2(p_-) - \sum_{i=1}^{k} p_i \log_2(p_i)\\
+		&= - \sum p_j \log_2(p_j) - \sum p_i \log_2(p_i)\\
+		&\geq -\log_2(\sum p_i \sum p_j) \hspace{50mm} (Jensen's Inequality) \\
+		Gain(S,A) &\geq -\log_2(1) = 0 \hspace{62mm} (where \sum p_ij = 1)
+      \end{align*}
+	\centerline{\fbox{\begin{minipage}{9em}
+		{\bf Gain(S,A) $\geq 0$ \checkmark \checkmark}
+	\end{minipage}}}
+
+
+% Problem 1.5 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\color{black}
+\item ~[\textbf{Bonus question 2}]~[5 points].  Problem 1.5 (Invent a gain)
+
+	\color{violet}
+	
+	You can create an improved form of the information gain (IG) by normalizing it as follows:
+	\center $Gain(S,A) = \frac{IG(A,S)}{\sum_{values(A)} \frac{|S_v|}{S} * \log_2{\frac{|S_v|}{S}}}$
+
+\end{enumerate}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+%\section{Decision Tree Practice [60 points]}
+\begin{enumerate}
+
+% Problem 2.1 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	\item~[5 Points] Problem 2.1 (Github Repository)
+
+	\color{violet}
+	\underline{Link to Repository:} \url{https://github.com/DaisyQuach/Machine-Learning-Fall2024}\\
+
+% Problem 2.2 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\color{black}
+\item~[30 points] Problem 2.2 (Car Evaluation Task)
+
+\begin{enumerate}
+
+% Problem 2.2a %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\item~[15 points] Problem 2.2a (Implement the ID3 Algorithm)
+
+	\color{violet}
+	\underline{Also in submission zip:} \url{https://github.com/DaisyQuach/Machine-Learning-Fall2024}\\ 
+
+% Problem 2.2b %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\color{black}
+\item~[10 points] Problem 2.2b (Apply Algorithm \& Tables)
+
+	\color{violet}
+		\begin{center}
+			\begin{tabular}{c|c|c|c}
+				\hline
+				$Tree Depth$ & $Method$ & $Training $ & $Test $ \\ 
+				\hline\hline\hline
+				1 & Information Gain 	& 0.671 & 0.6607142857142857  \\ \hline
+				2 & Information Gain 	& 0.444 & 0.44505494505494503  \\ \hline
+				3 & Information Gain 	& 0.444 & 0.44505494505494503  \\ \hline
+				4 & Information Gain 	& 0.408 & 0.3942307692307692  \\ \hline
+				5 & Information Gain 	& 0.299 & 0.20054945054945056  \\ \hline
+				6 & Information Gain 	& 0.0 & 0.20054945054945056  \\ \hline\hline
+
+				1 & Majority Error 	& 0.671 & 0.6607142857142857  \\ \hline
+				2 & Majority Error 	& 0.671 & 0.6607142857142857  \\ \hline
+				3 & Majority Error 	& 0.537 & 0.5480769230769231  \\ \hline
+				4 & Majority Error 	& 0.523 & 0.5013736263736264  \\ \hline
+				5 & Majority Error 	& 0.16 & 0.19917582417582416  \\ \hline
+				6 & Majority Error 	& 0.0 & 0.19917582417582416  \\ \hline\hline
+
+				1 & Gini Index 		& 0.671 & 0.6607142857142857  \\ \hline
+				2 & Gini Index 		& 0.444 & 0.44505494505494503  \\ \hline
+				3 & Gini Index 		& 0.444 & 0.44505494505494503  \\ \hline
+				4 & Gini Index 		& 0.243 & 0.22115384615384615  \\ \hline
+				5 & Gini Index 		& 0.16 & 0.15796703296703296  \\ \hline
+				6 & Gini Index 		& 0.0 & 0.15796703296703296  \\ \hline\hline
+			\end{tabular}
+		\end{center}
+
+
+% Problem 2.2c %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\color{black}
+\item~[5 points] Problem 2.2c (Car Evaluation Conclusion)
+
+	\color{violet}
+	As discussed in class, we do not want to use our training data like as the test data because we want to test if the learning algorithm is learning and not memorizing. From the table above, we can see how there is no error when we run the training dataset throught the 6-tier/complete decision tree. Although using test data will result in error, it actually indicates how well the algorithm performs. Any error from the training data below a max tree depth of 6 is due to the tree's cutoff.
+
+\end{enumerate}
+
+% Problem 2.3 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\color{black}
+\item~[25 points] Problem 2.3 (Bank Marketing - Numerical Attributes)
+\begin{enumerate}
+% Problem 2.3a %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	\item~[10 points] Problem 2.3a (No missing Attributes \& Tables)
+
+
+		\color{violet}
+
+		\underline{Code:} \url{https://github.com/DaisyQuach/Machine-Learning-Fall2024/tree/main/DecisionTree}\\
+		(Also in Canvas submission zip file)
+
+		\begin{center}
+			\begin{tabular}{c|c|c|c}
+				\hline
+				$Tree Depth$ & $Method$ & $Training $ & $Test $ \\ 
+				\hline\hline\hline
+				1 & Information Gain 		& 1.0 & 1.0  \\ \hline
+				2 & Information Gain 		& 1.0 & 0.9992  \\ \hline
+				3 & Information Gain 		& 0.9382 & 0.9428  \\ \hline
+				4 & Information Gain 		& 0.8404 & 0.8468  \\ \hline
+				5 & Information Gain 		& 0.8404 & 0.8468  \\ \hline
+				6 & Information Gain 		& 0.8404 & 0.8422  \\ \hline
+				7 & Information Gain 		& 0.7768 & 0.785  \\ \hline
+				8 & Information Gain 		& 0.624 & 0.6228  \\ \hline
+				9 & Information Gain 		& 0.55 & 0.514  \\ \hline
+				10 & Information Gain 	& 0.2832 & 0.3066  \\ \hline
+				11 & Information Gain 	& 0.1688 & 0.2294  \\ \hline
+				12 & Information Gain 	& 0.163 & 0.2246  \\ \hline
+				13 & Information Gain 	& 0.1054 & 0.1814  \\ \hline
+				14 & Information Gain 	& 0.0818 & 0.1672  \\ \hline
+				15 & Information Gain 	& 0.0538 & 0.1518  \\ \hline
+				16 & Information Gain 	& N/A & N/A  \\ \hline\hline
+
+				1 & Majority Error 		& 1.0 & 1.0  \\ \hline
+				2 & Majority Error 		& 0.9876 & 0.9876  \\ \hline
+				3 & Majority Error 		& 0.9668 & 0.9684  \\ \hline
+				4 & Majority Error		& 0.935 & 0.9038  \\ \hline
+				5 & Majority Error 		& 0.6796 & 0.6784  \\ \hline
+				6 & Majority Error 		& 0.5214 & 0.5568  \\ \hline
+				7 & Majority Error 		& 0.5078 & 0.5458  \\ \hline
+				8 & Majority Error 		& 0.3444 & 0.3908  \\ \hline
+				9 & Majority Error 		& 0.2696 & 0.3366  \\ \hline
+				10 & Majority Error 		& 0.2274 & 0.3004  \\ \hline
+				11 & Majority Error 		& 0.169 & 0.264  \\ \hline
+				12 & Majority Error 		& 0.1086 & 0.214  \\ \hline
+				13 & Majority Error 		& 0.0566 & 0.1764  \\ \hline
+				14 & Majority Error 		& 0.035 & 0.1672  \\ \hline
+				15 & Majority Error 		& 0.035 & 0.1672  \\ \hline
+				16 & Majority Error 		& N/A & N/A  \\ \hline\hline
+
+				1 & Gini Index 			& 1.0 & 1.0  \\ \hline
+				2 & Gini Index 			& 1.0 & 0.9992  \\ \hline
+				3 & Gini Index 			& 0.9382 & 0.9442  \\ \hline
+				4 & Gini Index 			& 0.9382 & 0.9442  \\ \hline
+				5 & Gini Index 			& 0.9382 & 0.9404  \\ \hline
+				6 & Gini Index 			& 0.8482 & 0.858  \\ \hline
+				7 & Gini Index 			& 0.7362 & 0.7162  \\ \hline
+				8 & Gini Index 			& 0.427 & 0.4402  \\ \hline
+				9 & Gini Index 			& 0.343 & 0.3604  \\ \hline
+				10 & Gini Index 			& 0.2316 & 0.267  \\ \hline
+				11 & Gini Index 			& 0.1686 & 0.2338  \\ \hline
+				12 & Gini Index 			& 0.1646 & 0.2284  \\ \hline
+				13 & Gini Index 			& 0.1064 & 0.189  \\ \hline
+				14 & Gini Index 			& 0.1784 & 0.0876  \\ \hline
+				15 & Gini Index 			& 0.0566 & 0.157  \\ \hline
+				16 & Gini Index 			& N/A & N/A  \\ \hline\hline
+
+			\end{tabular}
+		\end{center}
+
+
+% Problem 2.3b %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%	
+\color{black}
+	\item~[10 points] Problem 2.3b (Common Value Missing Attribute \& Tables)
+
+
+		\color{violet}
+
+		\underline{Code:} \url{https://github.com/DaisyQuach/Machine-Learning-Fall2024/tree/main/DecisionTree}\\
+		(Also in Canvas submission zip file)
+
+
+		\begin{center}
+			\begin{tabular}{c|c|c|c}
+				\hline
+				$Tree Depth$ & $Method$ & $Training $ & $Test $ \\ 
+				\hline\hline\hline
+				1 & Information Gain 		& 1.0 & 1.0  \\ \hline
+				2 & Information Gain 		& 1.0 & 0.9992  \\ \hline
+				3 & Information Gain 		& 0.9382 & 0.9428  \\ \hline
+				4 & Information Gain 		& 0.8404 & 0.8468  \\ \hline
+				5 & Information Gain 		& 0.8404 & 0.8468  \\ \hline
+				6 & Information Gain 		& 0.8404 & 0.8428  \\ \hline
+				7 & Information Gain 		& 0.7534 & 0.7576  \\ \hline
+				8 & Information Gain 		& 0.707 & 0.7144  \\ \hline
+				9 & Information Gain 		& 0.5944 & 0.554  \\ \hline
+				10 & Information Gain 	& 0.3298 & 0.337  \\ \hline
+				11 & Information Gain 	& 0.2078 & 0.2464  \\ \hline
+				12 & Information Gain 	& 0.1472 & 0.2084  \\ \hline
+				13 & Information Gain 	& 0.1442 & 0.2034  \\ \hline
+				14 & Information Gain 	& 0.0908 & 0.1674  \\ \hline
+				15 & Information Gain 	& 0.0742 & 0.1574  \\ \hline
+				16 & Information Gain 	& N/A & N/A  \\ \hline\hline
+
+				1 & Majority Error 		& 1.0 & 1.0  \\ \hline
+				2 & Majority Error 		& 0.9876 & 0.9876  \\ \hline
+				3 & Majority Error 		& 0.9668 & 0.9684  \\ \hline
+				4 & Majority Error		& 0.935 & 0.9052  \\ \hline
+				5 & Majority Error 		& 0.6834 & 0.689  \\ \hline
+				6 & Majority Error 		& 0.5446 & 0.5794  \\ \hline
+				7 & Majority Error 		& 0.531 & 0.569  \\ \hline
+				8 & Majority Error 		& 0.3604 & 0.4056  \\ \hline
+				9 & Majority Error 		& 0.286 & 0.3486  \\ \hline
+				10 & Majority Error 		& 0.2414 & 0.3138  \\ \hline
+				11 & Majority Error 		& 0.2264 & 0.3064  \\ \hline
+				12 & Majority Error 		& 0.145 & 0.235  \\ \hline
+				13 & Majority Error 		& 0.0766 & 0.1846  \\ \hline
+				14 & Majority Error 		& 0.0502 & 0.1724  \\ \hline
+				15 & Majority Error 		& 0.0502 & 0.1724  \\ \hline
+				16 & Majority Error 		& N/A & N/A  \\ \hline\hline
+
+				1 & Gini Index 			& 1.0 & 1.0  \\ \hline
+				2 & Gini Index 			& 1.0 & 0.9992  \\ \hline
+				3 & Gini Index 			& 0.9382 & 0.9442  \\ \hline
+				4 & Gini Index 			& 0.9382 & 0.9442  \\ \hline
+				5 & Gini Index 			& 0.9382 & 0.9432  \\ \hline
+				6 & Gini Index 			& 0.8486 & 0.855  \\ \hline
+				7 & Gini Index 			& 0.6972 & 0.705  \\ \hline
+				8 & Gini Index 			& 0.5722 & 0.5438  \\ \hline
+				9 & Gini Index 			& 0.2994 & 0.3198  \\ \hline
+				10 & Gini Index 			& 0.2306 & 0.2788  \\ \hline
+				11 & Gini Index 			& 0.2258 & 0.2732  \\ \hline
+				12 & Gini Index 			& 0.1532 & 0.2154  \\ \hline
+				13 & Gini Index 			& 0.1278 & 0.2004  \\ \hline
+				14 & Gini Index 			& 0.1176 & 0.1936  \\ \hline
+				15 & Gini Index 			& 0.0766 & 0.1642  \\ \hline
+				16 & Gini Index 			& N/A & N/A  \\ \hline\hline
+
+			\end{tabular}
+		\end{center}
+
+	
+% Problem 2.3c %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%	
+\color{black}
+	\item~[5 points] Problem 2.3c (Conclusion - Comparing Errors \& Unknown Attribute Values)
+
+	\color{violet}
+	Same as before, the using the training reaches a smaller error sooner than the testing data, and it has "perfect prediction" with the right enough depth to represent the data. However, the test error is more true to how well the algorithm performed. As a whole, increasing the tree depth improves the error as there are more rules it covers naturally. When dealing with unknown attributes, using the method from part a and part b are both similar in terms of performance. The part a method did perform slightly better, and it is possible that the unknown attributes have correlation to each other. However, the part b method would have a larger advantage if the unknown attribute had no correlation.
+
+\end{enumerate}
+\end{enumerate}
+
+ 
+
+
+\end{document}
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:
