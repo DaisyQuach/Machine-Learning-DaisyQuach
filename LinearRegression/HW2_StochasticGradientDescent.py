@@ -25,7 +25,6 @@ dfTrain = pd.read_csv(testData, names=['Cement', 'Slag', 'Fly Ash', 'Water', 'SP
 def addBias(X):                         # bias b = ones column vector in beginning of array
     return np.column_stack((np.ones(len(X)), X))
 
-
 def costFunc(X, y, w):              # Compute cost of given iteration
     m = len(y)
     h = X.dot(w)
@@ -33,40 +32,37 @@ def costFunc(X, y, w):              # Compute cost of given iteration
     return cost
 
 
-# Batch gradient descent algorithm
-def batchGradientDescent(X, y, wLearned, r, maxIter, errThreshold):
+# Stochastic gradient descent algorithm
+def stochasticGradientDescent(X, y, wLearned, r, maxIter, errThreshold):
     
     # Initialize storage saving data
     m = len(y)
-    costIter = []
     wIter = []
     wIter.append(wLearned)
-    errVec = []
+    costIter = []
      
      
-    for t in range(1, maxIter):
-        h = X.dot(wLearned)
-        diff = h - y
-        gradient = (1 / m) * X.T.dot(diff)
+    for i in range(0, maxIter):     # Iterate RANDOMLY based on available examples
+        
+        # Select random example:
+        randInd = np.random.randint(0,m)
+        Xi = np.array([X[randInd,:]])
+        yi = np.ones(len(wLearned)) * y[randInd]
+
+        # Compute weight while iterating through examples:
+        h = Xi.dot(wLearned)
+        diff = h - yi
+        gradient = Xi.dot(diff)
         wLearned = wLearned - r * gradient
-        cost = costFunc(X, y, wLearned)
-         
-        # Values to store per iteration
+        cost = costFunc(Xi, yi, wLearned)
+        
+
+        # Values to store per iteration:
         costIter.append(cost)
         wIter.append(wLearned)
-     
-        # Check for total error 
-        errDiff = wIter[t] - wIter[t-1]
-        for k in range(0,len(errDiff)-1):
-            errDiff[k] = errDiff[k]**2
-        error = math.sqrt(np.sum(errDiff))
-        errVec.append(error)
-            
-        if error <= errThreshold:
-            break        # stop iterating once error condition is met
     
            
-    return wLearned, costIter, errVec
+    return wLearned, costIter
 
 
 
@@ -91,12 +87,20 @@ maxIter = 1000
 # r = 0.03125
 # r = 0.015625
 # r = 0.0078125
-r = 0.00390625
+# r = 0.00390625
 # r = 0.001953125
 # r = 0.000976563
+# r = 0.000488282
+r = 0.000244141
+# r = 0.00012207
+# r = 0.000061035
+# r = 0.000030518
+# r = 0.000015259
+# r = 0.000007629
+
 
 # Run algorithm
-WLearned, CostIter, Errors = batchGradientDescent(xBiased, yTrain, w_0, r, maxIter,errThreshold)
+WLearned, CostIter = stochasticGradientDescent(xBiased, yTrain, w_0, r, maxIter, errThreshold)
 
 print("Final Parameters [b,w1,...,w7]:", WLearned)
 # print("Iterated Costs:", CostIter)
