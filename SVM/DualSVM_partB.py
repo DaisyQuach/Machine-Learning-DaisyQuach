@@ -35,7 +35,7 @@ def addBias(df):                         # bias b = ones column vector in beginn
     return np.column_stack((np.ones(len(df)), df))
 
 
-#%%  Primal Stochastic Sub-Gradient Descent
+#%%  Dual SVM - Nonlinear
 
 def dualSVM(df, C, gamma):
     # Initialize 
